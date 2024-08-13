@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class DivisionSeeder extends Seeder
+class DivisionsTableSeeder extends Seeder
 {
     public function run()
     {
@@ -16,7 +16,7 @@ class DivisionSeeder extends Seeder
             'Full Stack',
             'Backend',
             'Frontend',
-            'UI/UX Designer'
+            'UI/UX Designer',
         ];
 
         foreach ($divisions as $division) {
