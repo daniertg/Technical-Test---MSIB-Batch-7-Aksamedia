@@ -3,15 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 
 class Employee extends Model
 {
-    use HasUuids; // Tambahkan trait HasUuids
-
-    public $incrementing = false; // Tidak auto increment
-    protected $keyType = 'uuid'; // Set key type sebagai UUID
+    use HasFactory;
 
     protected $fillable = [
         'name',
@@ -21,8 +18,16 @@ class Employee extends Model
         'division_id',
     ];
 
-    public function division(): BelongsTo
+    protected $primaryKey = 'id';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
+    protected static function boot()
     {
-        return $this->belongsTo(Division::class, 'division_id');
+        parent::boot();
+
+        static::creating(function ($employee) {
+            $employee->id = (string) Str::uuid();
+        });
     }
 }

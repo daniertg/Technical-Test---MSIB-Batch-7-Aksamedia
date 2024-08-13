@@ -14,9 +14,10 @@ class CreateEmployeesTable extends Migration
             $table->string('phone');
             $table->string('image')->nullable();
             $table->string('position');
-            $table->uuid('division_id'); // Foreign key to divisions table
+            $table->uuid('division_id');
             $table->timestamps();
         });
+        
     }
 
     public function down()
