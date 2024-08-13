@@ -15,6 +15,7 @@ Route::middleware('check.token')->group(function () {
     Route::post('/employees', [EmployeeController::class, 'store']);
     Route::put('/employees/{uuid}', [EmployeeController::class, 'update']); 
     Route::delete('/employees/{uuid}', [EmployeeController::class, 'destroy']);
+    Route::post('/logout', [AuthController::class, 'logout']); 
 });
 
 

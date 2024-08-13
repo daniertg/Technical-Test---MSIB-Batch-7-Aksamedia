@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -30,8 +32,15 @@ class AuthController extends Controller
         // Generate token random 6 digit
         $token = $this->generateRandomToken();
 
-        // Jika diperlukan, simpan token di database untuk pengguna
-        // $user->update(['token' => $token]);
+        // Simpan token di tabel personal_access_tokens
+        DB::table('personal_access_tokens')->insert([
+            'tokenable_type' => User::class,
+            'tokenable_id' => $user->id,
+            'name' => 'Default',
+            'token' => $token,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
         return response()->json([
             'status' => 'success',
@@ -53,5 +62,36 @@ class AuthController extends Controller
     private function generateRandomToken()
     {
         return rand(100000, 999999);
+    }
+
+    public function logout(Request $request)
+    {
+        try {
+            $token = $request->bearerToken();
+
+            if ($token) {
+                // Hapus token dari tabel personal_access_tokens
+                DB::table('personal_access_tokens')
+                    ->where('token', $token)
+                    ->delete();
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Logout berhasil',
+                ]);
+            }
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Tidak ada sesi aktif untuk di-logout',
+            ], 401); // Unauthorized
+        } catch (\Exception $e) {
+            Log::error('Logout failed: ' . $e->getMessage());
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Logout gagal',
+            ], 500); // Internal Server Error
+        }
     }
 }
