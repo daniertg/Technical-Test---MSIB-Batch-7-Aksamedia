@@ -13,3 +13,5 @@
 ![image](https://github.com/user-attachments/assets/53a117c9-d459-4e5b-9781-985a7e6f41c4)
 ## Ouput Tugas 6
 ![image](https://github.com/user-attachments/assets/cb25b505-9fda-45a3-a80d-6b486fe2b8a8)
+## Ouput Tugas 7
+![image](https://github.com/user-attachments/assets/b12c632d-7995-4dfe-9f82-9fcc7a8fe2a5)
