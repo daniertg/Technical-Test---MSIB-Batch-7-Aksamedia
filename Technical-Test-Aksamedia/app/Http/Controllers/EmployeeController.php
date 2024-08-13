@@ -109,4 +109,27 @@ class EmployeeController extends Controller
             'message' => 'Data karyawan berhasil diperbarui',
         ]);
     }
+    public function destroy($uuid)
+    {
+        // Cari karyawan berdasarkan UUID
+        $employee = Employee::where('id', $uuid)->first();
+
+        // Jika tidak ditemukan, kembalikan response error
+        if (!$employee) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Karyawan tidak ditemukan',
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        // Hapus data karyawan
+        $employee->delete();
+
+        // Kembalikan response sukses
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data karyawan berhasil dihapus',
+        ]);
+    }
+
 }
