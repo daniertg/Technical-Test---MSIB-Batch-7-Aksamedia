@@ -1,19 +1,14 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
-
+use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\AuthController;
 
+// Rute untuk login (API)
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
+
+// Rute yang memerlukan autentikasi menggunakan Sanctum
+Route::middleware('check.token')->group(function () {
+    Route::get('/divisions', [DivisionController::class, 'index']);
+});
+// Di routes/api.php
